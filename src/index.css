@@ -65,6 +65,12 @@
     mx-2;
   }
 
+  .topbar-hr{
+    @apply bg-white dark:bg-gray-800 
+    border border-gray-50 dark:border-gray-800 rounded-full
+    mx-2;
+  }
+
   .sidebar-header {
     @apply bg-slate-100 dark:bg-red-500 
     border border-gray-100 dark:border-red-700 rounded-full
@@ -77,6 +83,7 @@
     w-full h-16 
     m-0 
     shadow-lg;
+    z-index: 9999;
   }
 
   .top-navigation-icon {
@@ -159,7 +166,7 @@
 
   .menu-header {
     @apply w-full flex flex-row text-lg items-center justify-evenly
-    text-gray-500 font-semibold text-opacity-80 
+    text-gray-600 font-semibold text-opacity-80 
     transition duration-300 ease-in-out
     py-4 px-8 m-0;
   }
@@ -226,9 +233,15 @@
     cursor-text;
   }
 
+  .sidebar-theme{
+    @apply fixed left-0 h-screen;
+    z-index: 2;
+  }
   .channel-bar {
-    @apply w-80 h-auto m-0 ml-16 bg-gray-200 dark:bg-gray-800
+    @apply fixed w-80 h-screen m-0 ml-16 bg-gray-200 dark:bg-gray-800
      overflow-hidden;
+     z-index: 1;
+     
   }
 
   .channel-container {
@@ -252,8 +265,69 @@
     @apply m-0 w-full px-2 pb-2
     transition duration-300 ease-in-out;
   }
-
   .dropdown-header {
+    @apply text-gray-500
+    cursor-pointer;
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Indicates that this can be clicked */
+    padding: 10px; /* Space around header */
+    /* background-color: #f5f5f5;  */
+    /* Light background for header */
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+.dropdown-header-text {
+    margin-left: 8px; /* Space between icon and text */
+    font-weight: 600; /* Bold header */
+}
+
+.dropdown-header-text-selected {
+  @apply mt-1 mr-auto ml-2
+  transition duration-300 ease-in-out
+  cursor-pointer
+  text-blue-500 text-opacity-90 font-bold;  
+  color: #007bff; 
+  /* Change color when selected */
+}
+
+.dropdown-subheader {
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Indicates that this can be clicked */
+    padding: 8px; /* Space around sub-header */
+    padding-left: 20px; /* Indentation for sub-selections */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.dropdown-subheader:hover {
+    /* background-color: rgba(0, 123, 255, 0.1);  */
+    /* Light highlight on hover */
+}
+
+.dropdown-subheader-text {
+    margin-left: 8px; /* Space between icon and text */
+    font-weight: 500; /* Normal weight for subheader */
+    font-size: 14px; /* Slightly smaller font */
+}
+
+.selected-subheader {
+    font-weight: bold; /* Make selected subheading bold */
+}
+
+.dropdown-selection-text {
+  @apply
+   text-gray-500 font-semibold tracking-wide
+  mr-auto text-sm
+  transition duration-300 ease-in-out 
+  hover:text-pink-500 dark:hover:text-gray-500
+  cursor-pointer;
+  margin-left: 60px; /* Space between icon and text */
+  font-weight: 500; /* Normal weight for the selection text */
+   font-size: 14px; /* Font size to match the design */
+}
+
+  /* .dropdown-header {
     @apply flex flex-row items-center justify-evenly
     mx-0 text-gray-500
     cursor-pointer;
@@ -261,12 +335,12 @@
 
   .dropdown-header-text {
     @apply text-gray-500  text-opacity-90 
-    text-lg font-semibold
+    text-sm font-semibold
     cursor-default;
   }
 
   .dropdown-header-text-selected {
-    @apply text-blue-500 text-opacity-90 text-lg font-bold;
+    @apply text-blue-500 text-opacity-90 text-sm font-bold;
   }
 
   .dropdown-selection {
@@ -278,11 +352,11 @@
 
   .dropdown-selection-text {
     @apply text-gray-500 font-semibold tracking-wide
-    mr-auto 
+    mr-auto text-sm
     transition duration-300 ease-in-out 
     hover:text-pink-500 dark:hover:text-gray-500
     cursor-pointer;
-  }
+  } */
 }
 
 @tailwind utilities;

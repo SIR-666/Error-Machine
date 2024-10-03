@@ -9,11 +9,10 @@ import {
     FaIndustry,
     FaClock, 
   } from 'react-icons/fa';
-  import useDarkMode from '../hooks/useDarkMode';
+  import useDarkMode from '../../hooks/useDarkMode';
   import { useState } from 'react';
-  import NavLinks from './Navbar/NavLinks';
   
-  const TopNavigation = ({ onreportClick, onHashtagClick, onBellIconClick,dropDwononclik }) => {
+  const TopNavigation_inputMenu = ({ onreportClick, onHashtagClick, onBellIconClick,dropDwononclik }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
@@ -25,36 +24,11 @@ import {
         <HashtagIcon onClick={onHashtagClick} />
         <Title />
         
-        <NavLinks />
-        <Machinepicker onClick={onreportClick} />
         
-        {/* <Search /> */}
-        <ClockIcon  onClick={onBellIconClick}/>
         <ThemeIcon />
         <Divider/>
         <UserCircle onClick={toggleDropdown}/>
-        {isDropdownOpen && (
-        <div id="dropdownAvatar" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-          <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div>Bonnie Green</div>
-            <div class="font-medium truncate">name@flowbite.com</div>
-          </div>
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
-            <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-            </li>
-          </ul>
-          <div class="py-2">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-          </div>
-      </div>
-        )}
+       
         
 
 {/* <!-- Dropdown menu --> */}
@@ -99,5 +73,5 @@ import {
   );
   
   
-  export default TopNavigation;
+  export default TopNavigation_inputMenu;
   

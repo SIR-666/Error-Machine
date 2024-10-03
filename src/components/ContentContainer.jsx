@@ -32,11 +32,19 @@ const excludedTags = [
 
 const ContentContainer = ({ activeMenu  }) => {
     const [errors, setErrors] = useState([]);
+    const [activeItem,setActiveItem] = useState('default');
     const [breakdownTime, setBreakdownTime] = useState('00:00:00');
     const [totalprod, setTotlProd] = useState('00:00:00');
     const [totalStopmMachince, setTotalstopMachine] = useState('00:00:00');
     const [errorHistory, setErrorHistory] = useState([]);
     
+    const handleRealtimeClick = () => {
+      setActiveItem('default');
+    };
+
+    const handleHystoricalClick = () => {
+      setActiveItem('hystorical');
+    }
 
     const formatTime = (seconds) => {
       const hours = Math.floor(seconds / 3600);
@@ -47,35 +55,31 @@ const ContentContainer = ({ activeMenu  }) => {
     };
 
     useEffect(() => {
-        if (activeMenu === 'notifications') {
-            getMachineErr(); // Only fetch data when the notifications table is visible
+      if (activeMenu === 'notifications') {
+          getMachineErr(); // Only fetch data when the notifications table is visible
+          getHytorical();
+          
+      }
+      else
+      {
+        const fetchData = async () => {
+          const data = await getApiData_MTBF(); // Make sure to call your getApiData function
+          // Assuming the calculated breakdown is returned in seconds
+          const breakdownInSeconds = data.length > 0 ? data[0].breakdown : 0; // Adjust as needed
+          const totalprodtime = data[0].totalprod;
+          const totalstopmachine = data[0].totalstop;
+          console.log('totalprodtime');
+          console.log(totalprodtime);
+          setBreakdownTime(formatTime(breakdownInSeconds));
+          setTotlProd(formatTime(totalprodtime))
+          setTotalstopMachine(formatTime(totalstopmachine))
+        };
+    
+        fetchData();
 
-            const fetchData = async () => {
-              const data = await getApiData_MTBF(); // Make sure to call your getApiData function
-              // Assuming the calculated breakdown is returned in seconds
-              const breakdownInSeconds = data.length > 0 ? data[0].breakdown : 0; // Adjust as needed
-              const totalprodtime = data[0].totalprod;
-              const totalstopmachine = data[0].totalstop;
-              console.log('totalprodtime');
-              console.log(totalprodtime);
-              setBreakdownTime(formatTime(breakdownInSeconds));
-              setTotlProd(formatTime(totalprodtime))
-              setTotalstopMachine(formatTime(totalstopmachine))
-            };
         
-            fetchData();
-        }
-        else
-        {
-          axios.get('http://10.24.0.82:5001/api/errorhistory')
-          .then(response => {
-            setErrorHistory(response.data);
-          })
-          .catch(error => {
-            console.error('There was an error fetching the data!', error);
-          });
-        }
-    }, [activeMenu]); // Re-run the effect only when activeMenu changes
+      }
+  }, [activeMenu]); // Re-run the effect only when activeMenu changes
 
     const generateText = (entry) => {
       if (entry.Status === "BREAKDOWN-OCCURE") {
@@ -88,6 +92,22 @@ const ContentContainer = ({ activeMenu  }) => {
       }
       return '';
     };
+
+    const getHytorical = async () => {
+      try {
+        // Fetch data from the OPC API
+        const response = await axios.get('http://10.24.0.82:5001/api/geterrorAll/Packing%20PB');
+        const errorAllData = response?.data || []; // Ensure the data is defined, fallback to an empty array
+        console.log('errorHistory');
+        console.log(errorAllData);
+    
+        setErrorHistory(errorAllData); // Set the data directly, since it's already an array
+
+      } catch (error) {
+        console.log('Failed to load', error);
+        setErrorHistory([]); // Fallback to an empty array in case of API failure
+      }
+    }
 
     const getMachineErr = async () => {
       console.log('try get');
@@ -152,80 +172,12 @@ const ContentContainer = ({ activeMenu  }) => {
     
     
   return (
-    <div className='content-container'>   
-    {/* <Datepicker />    */}
-      {/* <TopNavigation onHashtagClick={activeMenu}/> */}
-      {/* <div className='flex flex-col gap-4'>
-        <div className='px-4 h-[22rem] bg-white p-4 rounded-md border border-x-gray-200'>
-          <strong className='text-gray-700 font-medium'>PARETO BREAKDOWN</strong>
-          <div className='w-full mt-3 flex-1 text-xs' style={{height: "300px"}}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart width={500} height={300}
-              data={data}
-              margin={{
-                top: 20,
-                right: 10,
-                left: -10,
-                bottom: 0,
-              }}
-              >
-              <CartesianGrid strokeDasharray="3 3 0 0" vertical={false} />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="uv" fill="#0ea5e9" />
-              <Bar dataKey="pv" fill="#ea588c" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div> */}
-      
-
-      {activeMenu === 'default' && <div className='content-list'>
+    <div className='content-container'>      
+    {activeMenu === 'default' && <div className='content-list'>
         {/* <ParetoDiagram/> */}
-        <div className='py-4'></div>
-        <ParetoChart/> 
-        <div className='py-4'></div>
-        <Divider />
-        <h2 className={'menu-header'}>List Error Machine</h2>
-        
-        {errorHistory.map((entry, index) => {
-        // Mengganti "T" dan "Z" serta memformat timestamp
-              const formattedTimestamp = entry.Timestamp.replace("T", " ").replace("Z", "").split(".")[0];
-              
-              return (
-                <Post
-                  key={index}
-                  name={entry.Machine_Tag}
-                  timestamp={formattedTimestamp}  // Gunakan timestamp yang sudah diformat
-                  text={generateText(entry)}
-                />
-              );
-          })}
-
-        {/* <Post
-          name='Infeed Collator Jammed'
-          timestamp='9/18/2024 16:45'
-          text={`Finish Breakdown - Action Breakdown`}
-        />
-        <Post
-          name='Infeed Collator Jammed'
-          timestamp='9/18/2024 16:10'
-          text={`Action By MTC Tecnician`}
-        />
-        <Post
-          name='Infeed Collator Jammed'
-          timestamp='9/18/2024 16:00'
-          text={`Breakdown Occure - Machine Stop`}
-        /> */}
-      </div>}
-      {activeMenu === 'notifications' && <div className="table-container mx-auto px-2 overflow-auto">
-        <h2 className={'menu-header'}>Realtime Performance Machine Packing Line B </h2>
-        {/* <Divider /> */}
-        
-        < div className="flex gap-4 py-7 w-full">
+        <div className='py-2'></div>
+        <h2 className={'menu-header'}>Packing PB Machine Peformance</h2>
+        < div className="flex px-20 gap-4 py-4 w-full items-center justify-center">
           <BoxWrapper>
           <div className='rounded-full h-10 w-10 flex items-center justify-center bg-sky-500'>
             <IoTimerOutline className="text-2xl text-white"/>
@@ -278,57 +230,144 @@ const ContentContainer = ({ activeMenu  }) => {
           </div>
           </BoxWrapper>
           
-          {/* <div className='bg-white rounded-md p-4 flex-1 border border-gray-400 flex items-center shadow-sm'>a</div> */}
-          {/* <div className='bg-white rounded-md p-4 flex-1 border border-gray-400 flex items-center shadow-sm'>a</div> */}
-          {/* <div className='bg-white rounded-md p-4 flex-1 border border-gray-400 flex items-center shadow-sm'>a</div> */}
+          </div>
+        <ParetoChart/> 
+        
+        
+        
+
+        
+      </div>}
+
+      {activeMenu === 'notifications' && <div className="table-container mx-auto px-2 overflow-auto">
+        <h2 className={'menu-header'}>Realtime Performance Machine Packing B </h2>
+        {/* <Divider /> */}
+        <div className='py-2'></div>
+
+        <div className='flex'>
+          <button 
+            className={`text-blue-500 ${activeItem === 'default' ? 'underline' : ''}`} 
+            onClick={handleRealtimeClick}
+          >
+            Realtime
+          </button>
+          <span className='text-red-400'>|</span>
+          <button 
+            className={`text-blue-500 ${activeItem === 'hystorical' ? 'underline' : ''}`} 
+            onClick={handleHystoricalClick}
+          >
+            Hystorical
+          </button>
         </div>
 
-        {/* <div className="">
-          <div className="flex items-center justify-between p-2 text-sm">
-            <span>Showing 1-10 of {errors.length} errors</span>
-            <div className="flex">
-              <button className="text-gray-400 hover:text-gray-600">Previous</button>
-              <button className="text-gray-400 hover:text-gray-600">Next</button>
-            </div>
-          </div>
-        </div> */}
-      <table className="table-list">
-      <thead className="table-header">
-        <tr>
-          <th className="table-row-data">No</th>
-          <th className="table-row-data">Machine Tag</th>
-          <th className="table-row-data">Tag Description</th>
-          <th className="table-row-data">Value</th>
-          <th className="table-row-data">Timestamp</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-gray-50">
-        {errors.length > 0 ? (
-          errors.map((error, index) => (
-            <tr className="bg-gray-200" key={index}>
-              <td className="table-row-data">{index + 1}</td>
-              <td className="table-row-data">{error.Machine_Tag}</td>
-              <td className="table-row-data">
-                {error.Machine_Tag.split('.').pop()}  {/* If using '/' as a delimiter */}
-                {/* Or if the delimiter is something else, replace '/' with that delimiter */}
-              </td>
-              <td className="table-row-data">
-              <span className={`table-row-data ${error.Value === 'true' ? 'table-row-data-value-true' : error.Value === 'false' ? 'table-row-data-value-false' : ''}`}>
-                {error.Value}
-              </span>
-              </td>
-              <td className="table-row-data">{new Date(error.Timestamp).toLocaleString()}</td>
-            </tr>
-          ))
-        ) : (
+        {activeItem==='default' &&   
+        <table className="table-list">
+        <thead className="table-header">
           <tr>
-            <td colSpan="5">No errors found</td>
+            <th className="table-row-data">No</th>
+            <th className="table-row-data">Machine Tag</th>
+            <th className="table-row-data">Tag Description</th>
+            <th className="table-row-data">Value</th>
+            <th className="table-row-data">Timestamp</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {errors.length > 0 ? (
+            errors.map((error, index) => (
+              <tr className="bg-gray-200" key={index}>
+                <td className="table-row-data">{index + 1}</td>
+                <td className="table-row-data">{error.Machine_Tag}</td>
+                <td className="table-row-data">
+                  {error.Machine_Tag.split('.').pop()}  {/* If using '/' as a delimiter */}
+                  {/* Or if the delimiter is something else, replace '/' with that delimiter */}
+                </td>
+                <td className="table-row-data">
+                <span className={`table-row-data ${error.Value === 'true' ? 'table-row-data-value-true' : error.Value === 'false' ? 'table-row-data-value-false' : ''}`}>
+                  {error.Value}
+                </span>
+                </td>
+                <td className="table-row-data">{new Date(error.Timestamp).toLocaleString()}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No errors found</td>
+            </tr>
+          )}
+        </tbody>
+        </table>
+        }
+
+        {activeItem ==='hystorical' && 
+        <table className="table-list">
+        <thead className="table-header">
+          <tr>
+            <th className="table-row-data">No</th>
+            <th className="table-row-data">Machine Tag</th>
+            <th className="table-row-data">Breakdown</th>
+            <th className="table-row-data">Action</th>
+            <th className="table-row-data">Finish</th>
+            <th className="table-row-data">Notes</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {errorHistory.length > 0 ? (
+            errorHistory.map((errorHistory, index) => (
+              <tr className="bg-gray-200" key={index}>
+                <td className="table-row-data">{index + 1}</td>
+                <td className="table-row-data">
+                  {errorHistory.Machine_Tag.split('.').pop()}
+                  {/* {errorHistory.Machine_Tag} */}
+                </td>
+                <td className="table-row-data">
+                  {errorHistory.Breakdown
+                  ? errorHistory.Breakdown.replace('T', ' ').replace('Z', '')
+                  : ''}
+                </td>
+                <td className="table-row-data">
+                  {errorHistory.Action
+                  ? errorHistory.Action.replace('T', ' ').replace('Z', '')
+                  : ''}
+                </td>
+                <td className="table-row-data">
+                  {errorHistory.FinishAction
+                  ? errorHistory.FinishAction.replace('T', ' ').replace('Z', '')
+                  : ''}
+                </td>
+                <td className="table-row-data">
+                  {(() => {
+                    try {
+                      // Coba parse string sebagai JSON
+                      const keterangan = JSON.parse(errorHistory.Keterangan);
+                      // Jika parsing berhasil, tampilkan dalam format terpisah
+                      return (
+                        <>
+                          rootcaused = "{keterangan.rootcaused}" <br />
+                          countermeasure = "{keterangan.countermeasure}" <br />
+                          improvement = "{keterangan.improvement}"
+                        </>
+                      );
+                    } catch (e) {
+                      // Jika parsing gagal (bukan JSON), tampilkan apa adanya
+                      return errorHistory.Keterangan;
+                    }
+                  })()}
+                </td>
+
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No errors found</td>
+            </tr>
+          )}
+        </tbody>
+        </table>
+        }
         <h2 className={'menu-header'}></h2>
-        </div>}
+      
+      </div>
+      }
       
       {/* <BottomBar /> */}
     </div>

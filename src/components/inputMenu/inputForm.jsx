@@ -3,11 +3,9 @@ import { IoTimerOutline } from 'react-icons/io5';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Axios for API requests
-import { hystory } from '../infrastructure/api/machineError';
 // import Popup from './PopUp';
-import Popup from './PopUp';
-import EmployeeForm from './actionForm';
-import { updateHistoryApi } from '../infrastructure/api/machineError';
+import Popup from '../PopUp';
+import EmployeeForm from '../actionForm';
 
 const InputForm = ({ activeMenu }) => {
   const [errorHistory, seterrorHistory] = useState({ Status: '', Keterangan: '' });
@@ -15,10 +13,21 @@ const InputForm = ({ activeMenu }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedError, setSelectedError] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMachineErr();
   }, [activeMenu]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const tokenExpiration = localStorage.getItem('tokenExpiration');
+
+    if (!token || Date.now() > tokenExpiration) {
+        // Redirect to login if token does not exist or has expired
+        navigate('/');
+    }
+}, [navigate]);
 
 //   useEffect(() => {
 //     const fetchErrormachine = async () => {
@@ -221,6 +230,7 @@ const InputForm = ({ activeMenu }) => {
           </tbody>
         </table>
       </div>
+      <div className='py-2'></div>
     </div>
   );
 };

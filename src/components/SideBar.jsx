@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { BsPlus, BsNewspaper, BsFillGearFill, BsFillLightningFill, BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 import { FaFire } from 'react-icons/fa';
 import { IoLogOut } from 'react-icons/io5';
+import { useNavigate } from "react-router-dom";
 
-const SideBar = ({ formInsert, reportMachineclicked }) => {
+const SideBar = ({ formInsert, reportMachineclicked, onchannelbarOpen }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  
+
+  const handleNavigation = (link) => {
+    navigate(link);
+  };
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -16,51 +23,32 @@ const SideBar = ({ formInsert, reportMachineclicked }) => {
   };
 
   return (
-    <div className={`fixed top-18 left-0 h-screen ${isOpen ? 'w-16' : 'w-0'} flex flex-col bg-white dark:bg-gray-900 shadow-lg transition-all duration-300`}>
+    <div className={`sidebar-theme top-16 ${isOpen ? 'w-16' : 'w-0'} flex flex-col bg-white dark:bg-gray-900 shadow-lg transition-all duration-300`}>
       {isOpen && (
         <>
-          <SideBarIcon icon={<FaFire size="28" />} text="Home" />
+          <SideBarIcon icon={<FaFire size="28" />} text="Home" onClick={() => handleNavigation('/home')}/>
           <Divider />
-          <SideBarIcon icon={<BsFillGearFill size="32" />} text="Machine Performance" onClick={reportMachineclicked} />
-          <SideBarIcon icon={<BsNewspaper size="32" />} text="Error Handling" onClick={formInsert} />
+          <SideBarIcon 
+          icon={<BsFillGearFill size="32" />} 
+          text="Machine Performance" 
+          // onClick={reportMachineclicked} 
+          onClick={onchannelbarOpen}
+          />
+          {/* <SideBarIcon icon={<BsNewspaper size="32" />} text="Error Handling" onClick={formInsert} /> */}
+          <SideBarIcon 
+          icon={<BsNewspaper size="32" />} 
+          text="Error Handling" 
+          // onClick={formInsert}
+          onClick={() => handleNavigation('/login')}
+          />
           <SideBarIcon id="dropdownLeftEndButton" onClick={toggleDropdown} icon={<BsFillLightningFill size="32" />} text="Processing Milk Machine" />
-          {isDropdownOpen && (
-            // <div id="dropdownLeftEnd" className="z-20 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            //   <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLeftEndButton">
-            //     <li>
-            //       <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-            //     </li>
-            //     <li>
-            //       <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-            //     </li>
-            //     <li>
-            //       <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-            //     </li>
-            //     <li>
-            //       <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-            //     </li>
-            //   </ul>
-            // </div>
-            <div id="dropdownRight" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRightButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                </li>
-              </ul>
-          </div>
-            
-          )}
+          
           <Divider />
-          <SideBarIcon icon={<IoLogOut size="22" />} text="Log Out" />
+          <SideBarIcon 
+          icon={<IoLogOut size="22" />} 
+          text="Log Out" 
+          onClick={() => handleNavigation('/logout')}
+          />
           {/* <button 
             id="dropdownLeftEndButton" 
             onClick={toggleDropdown} 
@@ -74,12 +62,12 @@ const SideBar = ({ formInsert, reportMachineclicked }) => {
           
         </>
       )}
-      <button
+      {/* <button
         className={`absolute ${isOpen ? 'right-[-24px]' : 'right-4'} top-1/2 transform -translate-y-1/2 p-2 bg-blue-500 text-white rounded-full`}
         onClick={toggleSidebar}
       >
         {isOpen ? <BsFillCaretLeftFill size="10" /> : <BsFillCaretRightFill size="10" />}
-      </button>
+      </button> */}
     </div>
   );
 };

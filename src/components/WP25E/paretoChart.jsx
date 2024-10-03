@@ -45,22 +45,22 @@ const calculateCumulative = (data) => {
 // };
 
 const getApiData = async () => {
-  const response = await fetch('http://10.24.0.82:5001/api/transitions');
+  const response = await fetch('http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20E');
   const data = await response.json();
   console.log(data);
 
   return data
-  .filter(item => 
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Running' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Stopped' && // Exclude this machine state as well
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_EmergencyStop_IsOpen' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_AirPressureLow' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Idle' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborted' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborting' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Resetting' &&
-    item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Clearing'
-  )
+//   .filter(item => 
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Running' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Stopped' && // Exclude this machine state as well
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_EmergencyStop_IsOpen' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_AirPressureLow' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Idle' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborted' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborting' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Resetting' &&
+//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Clearing'
+//   )
     .map(item => {
       const name = item.Machine_Tag.split(".")[2]; // Assuming this always has 3 parts
       const breakdown = item.AvgTimeDifferenceInSeconds;
@@ -84,7 +84,7 @@ const ParetoDiagram = () => {
 
   return (
     <div className='px-4 h-auto bg-white p-4 rounded-md border border-gray-200 mx-auto shadow-md' style={{ width: '90%', maxWidth: '1200px' }}>
-  <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PB</strong>
+  <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PE</strong>
   
   {/* Membuat height dinamis berdasarkan konten */}
   <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
@@ -104,7 +104,6 @@ const ParetoDiagram = () => {
         <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
         <Tooltip content={<CustomTooltip />} />
         {/* <Legend /> */}
-        
 
         {/* Bar Chart */}
         <Bar yAxisId="left" dataKey="breakdown" fill="#295F98">
@@ -113,7 +112,6 @@ const ParetoDiagram = () => {
 
         {/* Line Chart */}
         <Line yAxisId="right" type="monotone" dataKey="ParetoDowntime" stroke="#ff7300" />
-
         <ReferenceLine 
           y={80} 
           yAxisId="right" 
