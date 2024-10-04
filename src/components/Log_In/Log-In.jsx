@@ -43,11 +43,11 @@ const LogIn = () => {
     return (
         // Render your login form here
         <div className="flex w-full h-screen">
-            <div className="w-full flex items-center justify-center lg:w-1/2">
-                <form onSubmit={handleSubmit} className="bg-slate-100 px-10 py-20 rounded-3xl border-2 border-gray-100 shadow-md">
-                    <h1 className="text-5xl font-semibold">Welcome Back!</h1>
-                    <p className="font-medium text-lg text-gray-500 mt-4">Please enter your credentials</p>
-                    
+            <div className="w-full flex items-center justify-center lg:w-1/2 px-4 md:px-10">
+                <form onSubmit={handleSubmit} className="bg-slate-100 px-6 py-10 md:px-10 md:py-20 rounded-3xl border-2 border-gray-100 shadow-md w-full max-w-md">
+                    <h1 className="text-3xl md:text-5xl font-semibold text-center">Welcome Back!</h1>
+                    <p className="font-medium text-base md:text-lg text-gray-500 mt-4 text-center">Please enter your credentials</p>
+
                     {errorMessage && (
                         <div className="mt-4 p-2 bg-red-200 text-red-800 rounded">
                             {errorMessage}
@@ -65,7 +65,7 @@ const LogIn = () => {
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
-                        <div>
+                        <div className="mt-4">
                             <label className="text-lg font-medium">Password</label>
                             <input
                                 type="password"
@@ -83,6 +83,7 @@ const LogIn = () => {
                     </div>
                 </form>
             </div>
+
             <div className="hidden relative lg:flex h-full w-1/2 items-center justify-center bg-gray-100">
                 <div className="w-60 h-60 bg-gradient-to-tr from-violet-500 to-pink-500 rounded-full animate-spin"></div>
                 <div className="w-full h-1/2 absolute bg-white/10 bottom-0 backdrop-blur-lg animate-pulse"></div>

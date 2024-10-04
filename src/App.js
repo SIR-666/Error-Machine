@@ -4,7 +4,7 @@ import ContentContainer from './components/ContentContainer';
 import TopNavigation from './components/TopNavigation';
 import InputForm from './components/inputMenu/inputForm';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-dom';
 import ContentContainer_Filling from './components/Filling/ContentContainer';
 import ContentContainer_WP25E from './components/WP25E/ContentContainer';
 import ContentContainer_WP25C from './components/WP25C/ContentContainer';
@@ -25,6 +25,7 @@ function App() {
   const [selectedRoute, setSelectedRoute] = useState('default');
   const token = localStorage.getItem('token');
 
+  
   const toggleChannelbar = () => {
     setIsChanelbarVisible(prev => !prev);
   };
@@ -88,7 +89,7 @@ function App() {
         
 
             <div className='flex' ref={sidebarRef}>
-              {isSidebarVisible && <SideBar 
+              {isSidebarVisible && !token && <SideBar 
               formInsert={handleSidebarAction} 
               onchannelbarOpen = {toggleChannelbar}
               reportMachineclicked ={handleSidebarAction2}

@@ -62,12 +62,12 @@ const SideBar = ({ formInsert, reportMachineclicked, onchannelbarOpen }) => {
           
         </>
       )}
-      {/* <button
+      <button
         className={`absolute ${isOpen ? 'right-[-24px]' : 'right-4'} top-1/2 transform -translate-y-1/2 p-2 bg-blue-500 text-white rounded-full`}
         onClick={toggleSidebar}
       >
         {isOpen ? <BsFillCaretLeftFill size="10" /> : <BsFillCaretRightFill size="10" />}
-      </button> */}
+      </button>
     </div>
   );
 };
