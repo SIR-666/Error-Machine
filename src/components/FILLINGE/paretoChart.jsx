@@ -35,7 +35,7 @@ const calculateCumulative = (data) => {
 
 const getApiData = async (excludedTags,month) => {
   console.log('getting month');
-  const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20E/${month}`);
+  const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Filling%20PE/${month}`);
   const data = await response.json();
 
   return data
@@ -66,7 +66,7 @@ const ParetoDiagram = ({ excludedTags,month }) => {
 
   return (
     <div className='px-4 h-auto bg-white p-4 rounded-md border border-gray-200 mx-auto shadow-md' style={{ width: '90%', maxWidth: '1200px' }}>
-      <strong className='text-gray-500 font-medium'> PARETO BREAKDOWN PACKING PE - {monthNames[month - 1]}</strong>
+      <strong className='text-gray-500 font-medium'> PARETO BREAKDOWN FILLING PE - {monthNames[month - 1]}</strong>
       <div className='text-sm text-gray-500'>Number of Breakdown in Time(s)</div>
       <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
         <ResponsiveContainer width="100%" height={400}>

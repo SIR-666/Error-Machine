@@ -15,7 +15,7 @@ const Logout = () => {
 
             // Redirect to the login page after a few seconds
             setTimeout(() => {
-                navigate('/login'); // Redirect to the login page
+                navigate('/home'); // Redirect to the login page
                 setNotification(''); // Clear notification
             }, 2000); // Adjust the duration as needed
         };

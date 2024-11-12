@@ -1,18 +1,12 @@
 // import TopNavigation from './TopNavigation';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-// import { getDataUseCase } from '../../application/useCases/user/MachineUseCases';
-// import { useState } from 'react';
-// import { getDataUseCase } from '../application/useCases/user/MachineUseCases';
-import {getError} from '../infrastructure/api/machineError'; 
 import axios from 'axios'; // Axios for API requests
-import { FaBusinessTime , FaPoo } from 'react-icons/fa';
 import { IoTimerOutline } from 'react-icons/io5';
-import { BarChart, ResponsiveContainer,XAxis,YAxis,Tooltip,Legend,Bar,CartesianGrid } from 'recharts';
 // import paretoChartmachine from './paretoChart';
 import ParetoChart from './paretoChart';
 import { Datepicker } from "flowbite-react";
+import ParetoChartQTY from './paretoChartQTY';
 
 const excludedTags = [
   'AB_Network_02.Packing PB.Machine State Stopped',
@@ -35,6 +29,7 @@ const ContentContainer = ({ activeMenu  }) => {
     const [activeItem,setActiveItem] = useState('default');
     const [breakdownTime, setBreakdownTime] = useState('00:00:00');
     const [totalprod, setTotlProd] = useState('00:00:00');
+    const [mttr, setMTTR] = useState('00:00:00');
     const [totalStopmMachince, setTotalstopMachine] = useState('00:00:00');
     const [errorHistory, setErrorHistory] = useState([]);
     
@@ -68,10 +63,12 @@ const ContentContainer = ({ activeMenu  }) => {
           const breakdownInSeconds = data.length > 0 ? data[0].breakdown : 0; // Adjust as needed
           const totalprodtime = data[0].totalprod;
           const totalstopmachine = data[0].totalstop;
+          const totalmttr = data[0].mttr;
           console.log('totalprodtime');
           console.log(totalprodtime);
           setBreakdownTime(formatTime(breakdownInSeconds));
           setTotlProd(formatTime(totalprodtime))
+          setMTTR(formatTime(totalmttr))
           setTotalstopMachine(formatTime(totalstopmachine))
         };
     
@@ -128,7 +125,7 @@ const ContentContainer = ({ activeMenu  }) => {
 
     //API MTBF
     const getApiData_MTBF = async () => {
-      const response = await fetch('http://10.24.0.82:5001/api/transitions');
+      const response = await fetch('http://10.24.0.82:5001/api/transition');
       const data = await response.json();
     
       // Extract the breakdown for the specific Machine_Tag
@@ -160,12 +157,13 @@ const ContentContainer = ({ activeMenu  }) => {
       console.log(totalQty);
       // Calculate the final breakdown if totalQty is not zero
       const calculatedBreakdown = totalQty > 0 ? Math.round(specificBreakdown / totalQty) : 0;
+      const calmttr = Math.round(stopmachine/totalQty);
       console.log(calculatedBreakdown);
       // Prepare the result
       return data.map(item => {
         const name = item.Machine_Tag.split(".")[2];
         const qty = item.TransitionCount;
-        return { name, qty, breakdown: calculatedBreakdown, totalprod:specificBreakdown, totalstop:stopmachine };
+        return { name, qty,mttr:calmttr, breakdown: calculatedBreakdown, totalprod:specificBreakdown, totalstop:stopmachine };
       });
     };
     
@@ -198,7 +196,7 @@ const ContentContainer = ({ activeMenu  }) => {
           <div className='pl-4'>
             <span className='text-sm text-gray-500 font-light'>MTTR</span>
             <div className='flex items-center'>
-              <strong className='text-xl text-gray-700 font-semibold'>0:00:00</strong>
+              <strong className='text-xl text-gray-700 font-semibold'>{mttr}</strong>
 
             </div>
           </div>
@@ -231,7 +229,19 @@ const ContentContainer = ({ activeMenu  }) => {
           </BoxWrapper>
           
           </div>
+        {/* <ParetoChart/>  */}
+
+        <div className='px-5 py-2'>
         <ParetoChart/> 
+          {/* excludedTags={excludedTags} */}
+          {/* />  */}
+        </div>
+        
+        <div className='px-5 py-3'>
+          <ParetoChartQTY
+          // excludedTags={excludedTags}
+          /> 
+        </div>
         
         
         

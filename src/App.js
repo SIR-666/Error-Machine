@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SideBar from './components/SideBar';
-import ContentContainer from './components/ContentContainer';
+import ContentContainer from './components/PackingB/ContentContainer';
 import TopNavigation from './components/TopNavigation';
 import InputForm from './components/inputMenu/inputForm';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Routes, Route, Navigate  } from 'react-router-dom';
+import ContentContainer_FILLE from './components/FILLINGE/ContentContainer'
 import ContentContainer_Filling from './components/Filling/ContentContainer';
 import ContentContainer_WP25E from './components/WP25E/ContentContainer';
 import ContentContainer_WP25C from './components/WP25C/ContentContainer';
@@ -89,7 +90,7 @@ function App() {
         
 
             <div className='flex' ref={sidebarRef}>
-              {isSidebarVisible && !token && <SideBar 
+              {isSidebarVisible && <SideBar 
               formInsert={handleSidebarAction} 
               onchannelbarOpen = {toggleChannelbar}
               reportMachineclicked ={handleSidebarAction2}
@@ -179,6 +180,23 @@ function App() {
           </div>
 
           } />
+
+          <Route exact path="/fillE" element={
+            <div className="app-container mt-16">
+            <TopNavigation_inputMenu
+              onHashtagClick={toggleSidebar}
+              onBellIconClick={handleBellIconClick}
+              onreportClick={handleReportClick}
+            />
+            <div ref={contentRef}>
+              {isFormInsert === 'default' && <ContentContainer_FILLE activeMenu={activeMenu} />}
+              {/* {isFormInsert === 'inputFormerror' && <InputForm />} */}
+            </div>
+          </div>
+
+          } />
+
+
 
           {/* Redirect to InputForm if already logged in */}
           

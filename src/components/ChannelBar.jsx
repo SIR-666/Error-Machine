@@ -59,7 +59,21 @@ const LineA = [
                     { name: '- Report Machine Performance', route: '/packE', param: 'default' },
                     { name: '- Realtime Performance', route: '/packE', param: 'notifications' }
                 ]
-            }
+            },
+            { 
+                name: 'Helicap', 
+                subSelections: [
+                    { name: '- Report Machine Performance', route: '/packE', param: 'default' },
+                    { name: '- Realtime Performance', route: '/packE', param: 'notifications' }
+                ]
+            },
+            { 
+                name: 'Robot UHT', 
+                subSelections: [
+                    { name: '- Report Machine Performance', route: '/packE', param: 'default' },
+                    { name: '- Realtime Performance', route: '/packE', param: 'notifications' }
+                ]
+            },
         ]
     }
 ];

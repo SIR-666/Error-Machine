@@ -84,47 +84,48 @@ const ParetoDiagram = () => {
 
   return (
     <div className='px-4 h-auto bg-white p-4 rounded-md border border-gray-200 mx-auto shadow-md' style={{ width: '90%', maxWidth: '1200px' }}>
-  <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PB</strong>
-  
-  {/* Membuat height dinamis berdasarkan konten */}
-  <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
-    <ResponsiveContainer width="100%" height={400}>
-      <ComposedChart data={cumulativeData} margin={{ top: 20, right: 30, left: 30, bottom: 60 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        {/* Posisikan legend di atas chart */}
-        <Legend layout="horizontal" verticalAlign="top" align="center" wrapperStyle={{ top: -20 }} />
-        {/* Sumbu X dinamis dengan teks miring */}
-        <XAxis 
-          dataKey="name"
-          angle={-25}  // Kemiringan teks
-          textAnchor="end"  // Penyelarasan di akhir
-        />
+      <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PB</strong>
+      <div className='text-sm text-gray-500'>Number of Breakdown in Time(s)</div>
+      
+      {/* Membuat height dinamis berdasarkan konten */}
+      <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
+        <ResponsiveContainer width="100%" height={400}>
+          <ComposedChart data={cumulativeData} margin={{ top: 20, right: 30, left: 30, bottom: 60 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            {/* Posisikan legend di atas chart */}
+            <Legend layout="horizontal" verticalAlign="top" align="center" wrapperStyle={{ top: -20 }} />
+            {/* Sumbu X dinamis dengan teks miring */}
+            <XAxis 
+              dataKey="name"
+              angle={-25}  // Kemiringan teks
+              textAnchor="end"  // Penyelarasan di akhir
+            />
 
-        <YAxis yAxisId="left" />
-        <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
-        <Tooltip content={<CustomTooltip />} />
-        {/* <Legend /> */}
-        
+            <YAxis yAxisId="left" />
+            <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
+            <Tooltip content={<CustomTooltip />} />
+            {/* <Legend /> */}
+            
 
-        {/* Bar Chart */}
-        <Bar yAxisId="left" dataKey="breakdown" fill="#295F98">
-          <LabelList dataKey="breakdown" position="top" fill="#6256CA" />
-        </Bar>
+            {/* Bar Chart */}
+            <Bar yAxisId="left" dataKey="breakdown" fill="#295F98">
+              <LabelList dataKey="breakdown" position="top" fill="#6256CA" />
+            </Bar>
 
-        {/* Line Chart */}
-        <Line yAxisId="right" type="monotone" dataKey="ParetoDowntime" stroke="#ff7300" />
+            {/* Line Chart */}
+            <Line yAxisId="right" type="monotone" dataKey="ParetoDowntime" stroke="#ff7300" />
 
-        <ReferenceLine 
-          y={80} 
-          yAxisId="right" 
-          stroke="red" 
-          strokeDasharray="3 3" 
-          label={{ value: '80%', position: 'right' }} 
-        />
-      </ComposedChart>
-    </ResponsiveContainer>
-  </div>
-</div>
+            <ReferenceLine 
+              y={80} 
+              yAxisId="right" 
+              stroke="red" 
+              strokeDasharray="3 3" 
+              label={{ value: '80%', position: 'right' }} 
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
 
   );
 };

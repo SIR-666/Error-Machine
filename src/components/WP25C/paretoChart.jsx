@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
-  ResponsiveContainer, Line, Label, LabelList, LineChart, ComposedChart, ReferenceLine 
- } from 'recharts';
+  ResponsiveContainer, Line, LabelList, ComposedChart, ReferenceLine 
+} from 'recharts';
 
 const CustomTooltip = ({ payload, label }) => {
   if (payload && payload.length) {
@@ -33,34 +33,13 @@ const calculateCumulative = (data) => {
   });
 };
 
-// const getApiData = async () => {
-//   const response = await fetch('http://10.24.0.82:5001/api/transitions')
-//   const data = await response.json()
-//   console.log(data);
-//   return data.map(item => {
-//     const name = item.Machine_Tag.split(".")[2];
-//     const breakdown = item.AvgTimeDifferenceInSeconds;
-//     return { name, breakdown };
-//   });
-// };
-
-const getApiData = async () => {
-  const response = await fetch('http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20C');
+const getApiData = async (excludedTags,month) => {
+  console.log('getting month');
+  const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20C/${month}`);
   const data = await response.json();
-  console.log(data);
 
   return data
-//   .filter(item => 
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Running' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Stopped' && // Exclude this machine state as well
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_EmergencyStop_IsOpen' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.bFL_AirPressureLow' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Idle' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborted' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Aborting' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Resetting' &&
-//     item.Machine_Tag !== 'AB_Network_02.Packing PB.Machine State Clearing'
-//   )
+    .filter(item => !excludedTags.includes(item.Machine_Tag))  // Use the passed excludedTags
     .map(item => {
       const name = item.Machine_Tag.split(".")[2]; // Assuming this always has 3 parts
       const breakdown = item.AvgTimeDifferenceInSeconds;
@@ -68,62 +47,51 @@ const getApiData = async () => {
     });
 };
 
-
-const ParetoDiagram = () => {
+const monthNames = [
+  "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
+  "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+];
+const ParetoDiagram = ({ excludedTags,month }) => {
   const [cumulativeData, setCumulativeData] = useState([]);
 
   useEffect(() => {
-    getApiData().then(data => {
+    getApiData(excludedTags, month).then(data => {
       const cumulativeData = calculateCumulative(
         data.sort((a, b) => b.breakdown - a.breakdown)
       );
 
       setCumulativeData(cumulativeData);
     });
-  }, []);
+  }, [excludedTags,month]); // Re-run the effect when excludedTags changes
 
   return (
     <div className='px-4 h-auto bg-white p-4 rounded-md border border-gray-200 mx-auto shadow-md' style={{ width: '90%', maxWidth: '1200px' }}>
-  <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PE</strong>
-  
-  {/* Membuat height dinamis berdasarkan konten */}
-  <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
-    <ResponsiveContainer width="100%" height={400}>
-      <ComposedChart data={cumulativeData} margin={{ top: 20, right: 30, left: 30, bottom: 60 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        {/* Posisikan legend di atas chart */}
-        <Legend layout="horizontal" verticalAlign="top" align="center" wrapperStyle={{ top: -20 }} />
-        {/* Sumbu X dinamis dengan teks miring */}
-        <XAxis 
-          dataKey="name"
-          angle={-25}  // Kemiringan teks
-          textAnchor="end"  // Penyelarasan di akhir
-        />
-
-        <YAxis yAxisId="left" />
-        <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
-        <Tooltip content={<CustomTooltip />} />
-        {/* <Legend /> */}
-
-        {/* Bar Chart */}
-        <Bar yAxisId="left" dataKey="breakdown" fill="#295F98">
-          <LabelList dataKey="breakdown" position="top" fill="#6256CA" />
-        </Bar>
-
-        {/* Line Chart */}
-        <Line yAxisId="right" type="monotone" dataKey="ParetoDowntime" stroke="#ff7300" />
-        <ReferenceLine 
-          y={80} 
-          yAxisId="right" 
-          stroke="red" 
-          strokeDasharray="3 3" 
-          label={{ value: '80%', position: 'right' }} 
-        />
-      </ComposedChart>
-    </ResponsiveContainer>
-  </div>
-</div>
-
+      <strong className='text-gray-500 font-medium'> PARETO BREAKDOWN PACKING PC - {monthNames[month - 1]}</strong>
+      <div className='text-sm text-gray-500'>Number of Breakdown in Time(s)</div>
+      <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
+        <ResponsiveContainer width="100%" height={400}>
+          <ComposedChart data={cumulativeData} margin={{ top: 20, right: 30, left: 30, bottom: 60 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <Legend layout="horizontal" verticalAlign="top" align="center" wrapperStyle={{ top: -20 }} />
+            <XAxis dataKey="name" angle={-25} textAnchor="end" />
+            <YAxis yAxisId="left" />
+            <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar yAxisId="left" dataKey="breakdown" fill="#295F98">
+              <LabelList dataKey="breakdown" position="top" fill="#6256CA" />
+            </Bar>
+            <Line yAxisId="right" type="monotone" dataKey="ParetoDowntime" stroke="#ff7300" />
+            <ReferenceLine 
+              y={80} 
+              yAxisId="right" 
+              stroke="red" 
+              strokeDasharray="3 3" 
+              label={{ value: '80%', position: 'right' }} 
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 };
 

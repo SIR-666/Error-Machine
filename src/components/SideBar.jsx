@@ -41,7 +41,7 @@ const SideBar = ({ formInsert, reportMachineclicked, onchannelbarOpen }) => {
           // onClick={formInsert}
           onClick={() => handleNavigation('/login')}
           />
-          <SideBarIcon id="dropdownLeftEndButton" onClick={toggleDropdown} icon={<BsFillLightningFill size="32" />} text="Processing Milk Machine" />
+          <SideBarIcon id="dropdownLeftEndButton" onClick={toggleDropdown} icon={<BsFillLightningFill size="32" />} text="Environtment Dashboard" />
           
           <Divider />
           <SideBarIcon 

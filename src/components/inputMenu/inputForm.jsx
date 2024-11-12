@@ -169,7 +169,7 @@ const InputForm = ({ activeMenu }) => {
         <EmployeeForm handleInputChange={handleInputChange} formData={formData} />
       </Popup>
 
-      <div className="table-container mx-auto px-2 overflow-auto">
+      <div className="table-container mx-auto px-2 overflow-auto hidden md:block">
         <h2 className={'menu-header'}>Outstanding Machine Problem</h2>
 
         <table className='table-list'>
@@ -230,6 +230,43 @@ const InputForm = ({ activeMenu }) => {
           </tbody>
         </table>
       </div>
+
+      <div className="px-3 py-3 grid grid-clos-1 gap-4 md:hidden">
+      {errors.length > 0 ? (
+              errors.map((error, index) => (
+                <div className='bg-white p-4 rounded-lg shadow-sm' key={index}>
+                  <div className='flex items-center space-x-2 text-sm'>
+                    <a className='text-blue-700 font-bold'>#{index + 1}</a>
+                    <a className='text-gray-500 '>{error.Timestamp.replace('T', ' ').replace('Z', '')}</a>
+                    <a className='text-gray-500 font-bold px-1'>{error.Machine_Tag.split('.')[1] || ''}</a>
+                    
+                  </div>
+                  <div>
+                    <div className='text-base text-red-500 font-bold'>{error.Machine_Tag.split('.').pop() || error.Machine_Tag}</div>  
+                    <div className='flex justify-end'>
+                      <button 
+                      className='bg-red-700 px-3 py-2 rounded-2xl text-white text-sm' 
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      onClick={() => handleActionClick(error)}
+                      >
+                      <FaBusinessTime size={16} /> &nbsp;   
+                      Action 
+                      </button>  
+                    </div>
+                  </div>
+                </div>
+
+               
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">No errors found</td>
+              </tr>
+            )}
+            
+      </div>
+
+
       <div className='py-2'></div>
     </div>
   );

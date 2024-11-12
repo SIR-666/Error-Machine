@@ -34,15 +34,14 @@ const calculateCumulative = (data) => {
 };
 
 const getApiData = async (excludedTags,month) => {
-  console.log('getting month');
-  const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20E/${month}`);
+  const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20C/${month}`);
   const data = await response.json();
 
   return data
     .filter(item => !excludedTags.includes(item.Machine_Tag))  // Use the passed excludedTags
     .map(item => {
       const name = item.Machine_Tag.split(".")[2]; // Assuming this always has 3 parts
-      const breakdown = item.AvgTimeDifferenceInSeconds;
+      const breakdown = item.TransitionCount;
       return { name, breakdown };
     });
 };
@@ -51,11 +50,12 @@ const monthNames = [
   "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
   "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
 ];
-const ParetoDiagram = ({ excludedTags,month }) => {
+
+const ParetoDiagramQTY = ({ excludedTags,month }) => {
   const [cumulativeData, setCumulativeData] = useState([]);
 
   useEffect(() => {
-    getApiData(excludedTags, month).then(data => {
+    getApiData(excludedTags,month).then(data => {
       const cumulativeData = calculateCumulative(
         data.sort((a, b) => b.breakdown - a.breakdown)
       );
@@ -66,8 +66,8 @@ const ParetoDiagram = ({ excludedTags,month }) => {
 
   return (
     <div className='px-4 h-auto bg-white p-4 rounded-md border border-gray-200 mx-auto shadow-md' style={{ width: '90%', maxWidth: '1200px' }}>
-      <strong className='text-gray-500 font-medium'> PARETO BREAKDOWN PACKING PE - {monthNames[month - 1]}</strong>
-      <div className='text-sm text-gray-500'>Number of Breakdown in Time(s)</div>
+      <strong className='text-gray-500 font-medium'>PARETO BREAKDOWN PACKING PC - {monthNames[month - 1]}</strong>
+      <div className='text-sm text-gray-500'>Number of Breakdown in Qty</div>
       <div className='w-full mt-3 flex-1 text-xs' style={{ minHeight: "300px", height: "auto" }}>
         <ResponsiveContainer width="100%" height={400}>
           <ComposedChart data={cumulativeData} margin={{ top: 20, right: 30, left: 30, bottom: 60 }}>
@@ -95,4 +95,4 @@ const ParetoDiagram = ({ excludedTags,month }) => {
   );
 };
 
-export default ParetoDiagram;
+export default ParetoDiagramQTY;

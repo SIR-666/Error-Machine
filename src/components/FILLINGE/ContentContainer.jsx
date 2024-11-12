@@ -24,43 +24,43 @@ import DatePicker from "react-datepicker";
 // ];
 
 const excludedTags_All = [
-  'AB_Network_04.Packing WP25 C.Machine_Run',
-  'AB_Network_04.Packing WP25 C.Machine_Alarm',
-  'AB_Network_04.Packing WP25 C.Cardboard Shortage',
-  'AB_Network_04.Packing WP25 C.Panel Emergency Stop',
-  'AB_Network_04.Packing WP25 C.Machine_Stop',
-  'AB_Network_04.Packing WP25 C.Bottle Tipping',
-  'AB_Network_04.Packing WP25 C.Machine_Ready',
-  'AB_Network_04.Packing WP25 C.Machine_Pause',
-  'AB_Network_04.Packing WP25 C.Glue_Ready'
+  'AB_Network_04.Packing WP25 E.Machine_Run',
+  'AB_Network_04.Packing WP25 E.Machine_Alarm',
+  'AB_Network_04.Packing WP25 E.Cardboard Shortage',
+  'AB_Network_04.Packing WP25 E.Panel Emergency Stop',
+  'AB_Network_04.Packing WP25 E.Machine_Stop',
+  'AB_Network_04.Packing WP25 E.Bottle Tipping',
+  'AB_Network_04.Packing WP25 E.Machine_Ready',
+  'AB_Network_04.Packing WP25 E.Machine_Pause',
+  'AB_Network_04.Packing WP25 E.Glue_Ready'
 ];
 
 const options = [
-  { value: "AB_Network_04.Packing WP25 C.Bottle Tipping", label: "Bottle Tipping" },
-  { value:"AB_Network_04.Packing WP25 C.Cardboard Shortage",label: "Cardboard Shortage"},
-  { value: "AB_Network_04.Packing WP25 C.External Emergency Stop", label: "External Emergency Stop" },
-  { value: "AB_Network_04.Packing WP25 C.Front Glue Spray Not Turn On", label: "Front Glue Spray Not Turn On" },
-  { value: "AB_Network_04.Packing WP25 C.Full Bottle", label: "Full Bottle" },
-  { value: "AB_Network_04.Packing WP25 C.Glue_Ready", label: "Glue_Ready" },
-  { value: "AB_Network_04.Packing WP25 C.Infeed_Counter", label: "Infeed_Counter" },
-  { value: "AB_Network_04.Packing WP25 C.Inverter Fault", label: "Inverter Fault" },
-  { value: "AB_Network_04.Packing WP25 C.Lower Safety Door Detection", label: "Lower Safety Door Detection" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Alarm", label: "Machine_Alarm" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Pause", label: "Machine_Pause" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Ready", label: "Machine_Ready" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Run", label: "Machine_Run" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Speed", label: "Machine_Speed" },
-  { value: "AB_Network_04.Packing WP25 C.Machine_Stop", label: "Machine_Stop" },
-  { value: "AB_Network_04.Packing WP25 C.Motor Fault", label: "Motor Fault" },
-  { value: "AB_Network_04.Packing WP25 C.Out of Box Blocked", label: "Out of Box Blocked" },
-  { value: "AB_Network_04.Packing WP25 C.Outfeed_Counter", label: "Outfeed_Counter" },
-  {value:"AB_Network_04.Packing WP25 C.Panel Emergency Stop",label:'Panel Emergency Stop'},
-  {value:"AB_Network_04.Packing WP25 C.Running_Hour",label:'Running_Hour'},
-  {value:"AB_Network_04.Packing WP25 C.Safety Door Inspection",label:'Safety Door Inspection'},
-  {value:"AB_Network_04.Packing WP25 C.Side Glue Not Turned On During Startup",label:'Side Glue Not Turned On During Startup'},
-];
+  { value: "AB_Network_04.Packing WP25 E.Bottle Tipping", label: "Bottle Tipping" },
+  { value:"AB_Network_04.Packing WP25 E.Cardboard Shortage",label: "Cardboard Shortage"},
+  { value: "AB_Network_04.Packing WP25 E.External Emergency Stop", label: "External Emergency Stop" },
+  { value: "AB_Network_04.Packing WP25 E.Front Glue Spray Not Turn On", label: "Front Glue Spray Not Turn On" },
+  { value: "AB_Network_04.Packing WP25 E.Full Bottle", label: "Full Bottle" },
+  { value: "AB_Network_04.Packing WP25 E.Glue_Ready", label: "Glue_Ready" },
+  { value: "AB_Network_04.Packing WP25 E.Infeed_Counter", label: "Infeed_Counter" },
+  { value: "AB_Network_04.Packing WP25 E.Inverter Fault", label: "Inverter Fault" },
+  { value: "AB_Network_04.Packing WP25 E.Lower Safety Door Detection", label: "Lower Safety Door Detection" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Alarm", label: "Machine_Alarm" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Pause", label: "Machine_Pause" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Ready", label: "Machine_Ready" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Run", label: "Machine_Run" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Speed", label: "Machine_Speed" },
+  { value: "AB_Network_04.Packing WP25 E.Machine_Stop", label: "Machine_Stop" },
+  { value: "AB_Network_04.Packing WP25 E.Motor Fault", label: "Motor Fault" },
+  { value: "AB_Network_04.Packing WP25 E.Out of Box Blocked", label: "Out of Box Blocked" },
+  { value: "AB_Network_04.Packing WP25 E.Outfeed_Counter", label: "Outfeed_Counter" },
+  { value: "AB_Network_04.Packing WP25 E.Panel Emergency Stop",label:'Panel Emergency Stop'},
+  { value: "AB_Network_04.Packing WP25 E.Running_Hour",label:'Running_Hour'},
+  { value: "AB_Network_04.Packing WP25 E.Safety Door Inspection",label:'Safety Door Inspection'},
+  { value: "AB_Network_04.Packing WP25 E.Side Glue Not Turned On During Startup",label:'Side Glue Not Turned On During Startup'},
+]
 
-const ContentContainer_WP25C = ({ activeMenu  }) => {
+const ContentContainer_FILLE = ({ activeMenu  }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [errors, setErrors] = useState([]);
     const [activeItem,setActiveItem] = useState('default');
@@ -160,7 +160,7 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
     const getHytorical = async () => {
       try {
         // Fetch data from the OPC API
-        const response = await axios.get('http://10.24.0.82:5001/api/geterrorAll/Packing%20WP25%20C');
+        const response = await axios.get('http://10.24.0.82:5001/api/geterrorAll/Filling%20PE');
         const errorAllData = response?.data || []; // Ensure the data is defined, fallback to an empty array
         console.log('errorHistory');
         console.log(errorAllData);
@@ -172,12 +172,16 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
         setErrorHistory([]); // Fallback to an empty array in case of API failure
       }
     }
+    
+    const formatDateTime = (dateTimeString) => {
+      return dateTimeString.replace("T", " ").replace("Z", "");
+    };
 
     const getMachineErr = async () => {
       console.log('try get');
       try {
         // Fetch data from the OPC API
-        const response = await axios.get('http://10.24.0.82:5001/api/Allerror/Packing%20WP25%20C');
+        const response = await axios.get('http://10.24.0.82:5001/api/Allerror/Filling%20PE');
         const errorAllData = response?.data || []; // Ensure the data is defined, fallback to an empty array
         console.log('errorAllData');
         console.log(errorAllData);
@@ -192,13 +196,17 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
 
     //API MTBF
     const getApiData_MTBF_All = async (excludedTags_All = []) => {
-      const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20C/${month}`);
+      const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Filling%20PE/${month}`);
       const data = await response.json();
     
       // Extract the breakdown for the specific Machine_Tag
-      const specificMachineTag = 'AB_Network_04.Packing WP25 C.Machine_Run';
+      const specificMachineTag = 'AB_Network_04.Filling PE.STS_Plms_Production';
       const specificBreakdown = data.find(item => item.Machine_Tag === specificMachineTag)?.AvgTimeDifferenceInSeconds;
       console.log(specificBreakdown);
+
+      const specificMachineTag2 = 'AB_Network_04.Filling PE.TProductionInterrupted';
+      const Interupt = data.find(item => item.Machine_Tag === specificMachineTag2)?.AvgTimeDifferenceInSeconds;
+      console.log(Interupt);
 
 
       
@@ -226,26 +234,23 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
       // Calculate the final breakdown if totalQty is not zero
       const calculatedBreakdown = totalQty > 0 ? Math.round(specificBreakdown / totalQty) : 0;
       console.log(calculatedBreakdown);
-      const calmttr = Math.round(stopmachine/totalQty);
+      const calmttr = Math.round(Interupt/totalQty);
       // Prepare the result
       return data.map(item => {
         const name = item.Machine_Tag.split(".")[2];
         const qty = item.TransitionCount;
-        return { name, qty,mttr:calmttr, breakdown: calculatedBreakdown, totalprod:specificBreakdown, totalstop:stopmachine };
+        return { name, qty,mttr:calmttr, breakdown: calculatedBreakdown, totalprod:specificBreakdown, totalstop:Interupt };
       });
     };
 
-    const formatDateTime = (dateTimeString) => {
-      return dateTimeString.replace("T", " ").replace("Z", "");
-    };
 
     //API MTBF
     const getApiData_MTBF = async (excludedTags = []) => {
-      const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Packing%20WP25%20C/${month}`);
+      const response = await fetch(`http://10.24.0.82:5001/api/transitionsAll/Filling%20PE/${month}`);
       const data = await response.json();
     
       // Extract the breakdown for the specific Machine_Tag
-      const specificMachineTag = 'AB_Network_04.Packing WP25 C.Machine_Run';
+      const specificMachineTag = 'AB_Network_04.Filling PE.STS_Plms_Production';
       const specificBreakdown = data.find(item => item.Machine_Tag === specificMachineTag)?.AvgTimeDifferenceInSeconds;
       console.log(specificBreakdown);
 
@@ -294,7 +299,7 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
         </div> */}
         {/* <ParetoDiagram/> */}
         <div className='py-2'></div>
-        <h2 className={'menu-header'}>Packing PC Machine Peformance - {monthNames[month - 1]}</h2>
+        <h2 className={'menu-header'}>Filling PE Machine Peformance - {monthNames[month - 1]}</h2>
         <div className='flex px-20 gap-40 w-full justify-between'>
           <button  onClick={handlePreviousMonth} className='text-white px-4 py-2 bg-blue-700 rounded-3xl'>
             Back
@@ -319,18 +324,18 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
             </div>
             </BoxWrapper>
 
-            <BoxWrapper>
+            <BoxWrapper2>
             <div className='rounded-full h-10 w-10 flex items-center justify-center bg-sky-500'>
               <IoTimerOutline className="text-2xl text-white"/>
             </div>
             <div className='pl-4'>
-              <span className='text-sm text-gray-500 font-light'>MTBF by Tech</span>
+              <span className='text-sm text-gray-500 font-light'>MTBF Custom</span>
               <div className='flex items-center'>
                 <strong className='text-xl text-gray-700 font-semibold'>{breakdownTime}</strong>
 
               </div>
             </div>
-            </BoxWrapper>
+            </BoxWrapper2>
 
             <BoxWrapper>
             <div className='rounded-full h-10 w-10 flex items-center justify-center bg-sky-500'>
@@ -397,19 +402,11 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
           /> 
         </div>
 
-        
-
-        
-        
-        
-        
-
-        
       </div>}
 
       {activeMenu === 'notifications' && <div className="table-container mx-auto px-2 overflow-auto">
         <div className='py-2'></div>
-        <h2 className={'menu-header'}>Realtime Performance Machine Packing WP25 C </h2>
+        <h2 className={'menu-header'}>Realtime Performance Machine Filling E </h2>
         {/* <Divider /> */}
         <div className='py-2'></div>
 
@@ -458,6 +455,7 @@ const ContentContainer_WP25C = ({ activeMenu  }) => {
                       : error.Value}
                   </span>
                 </td>
+                {/* <td className="table-row-data">{new Date(error.Timestamp).toLocaleString()}</td> */}
                 <td className="table-row-data">{formatDateTime(error.Timestamp)}</td>
               </tr>
             ))
@@ -570,8 +568,11 @@ const Post = ({ name, timestamp, text }) => {
 
 
 
-export default ContentContainer_WP25C;
+export default ContentContainer_FILLE;
 
 function BoxWrapper({ children }) {
   return <div className="bg-white rounded-md p-4 flex-1 border border-gray-400 flex items-center">{children}</div>;
+}
+function BoxWrapper2({ children }) {
+  return <div className="bg-amber-200 rounded-md p-4 flex-1 border border-gray-400 flex items-center">{children}</div>;
 }
